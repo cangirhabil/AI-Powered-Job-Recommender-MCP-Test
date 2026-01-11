@@ -68,7 +68,7 @@ if uploaded_file:
             st.warning("No LinkedIn jobs found.")
 
         st.markdown("---")
-        st.header("💼 Top Naukri Jobs (India)")
+        st.header("💼 Top Naukri Jobs (Türkiye)")
 
         if naukri_jobs:
             for job in naukri_jobs:

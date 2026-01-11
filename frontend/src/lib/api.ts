@@ -13,6 +13,8 @@ export interface Job {
   location?: string;
   link?: string;
   url?: string;
+  jobUrl?: string;
+  applyUrl?: string;
 }
 
 export interface JobsResponse {

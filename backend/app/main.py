@@ -60,7 +60,7 @@ async def analyze_resume(file: UploadFile = File(...)):
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/fetch-jobs")
-async def get_jobs(keywords: str, location: str = "india"):
+async def get_jobs(keywords: str, location: str = "Türkiye"):
     try:
         # Fetching fewer jobs for speed in demo/dev
         linkedin_jobs = fetch_linkedin_jobs(keywords, location=location, rows=10)

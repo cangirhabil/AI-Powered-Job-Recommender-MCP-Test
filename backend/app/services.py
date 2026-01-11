@@ -42,7 +42,7 @@ def ask_gemini(prompt, max_tokens=500):
     except Exception as e:
         return f"Error calling Gemini: {str(e)}"
 
-def fetch_linkedin_jobs(search_query, location="india", rows=10):
+def fetch_linkedin_jobs(search_query, location="Türkiye", rows=10):
     """Fetches jobs from LinkedIn via Apify."""
     if not apify_client:
         return []
