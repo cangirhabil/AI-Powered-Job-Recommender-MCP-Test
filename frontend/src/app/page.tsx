@@ -229,28 +229,18 @@ export default function Home() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
               >
-                <Tabs defaultValue="linkedin" className="w-full">
-                  <TabsList className="grid w-full grid-cols-2 bg-white/5 border border-white/10 mb-8 p-1">
-                    <TabsTrigger value="linkedin" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white transition-all">
-                      LinkedIn Jobs
-                    </TabsTrigger>
-                    <TabsTrigger value="naukri" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white transition-all">
-                      Naukri Jobs
-                    </TabsTrigger>
-                  </TabsList>
-                  
-                  <TabsContent value="linkedin" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <motion.div 
+                className="mt-12"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+              >
+                  <h3 className="text-2xl font-bold text-white mb-6">Recommended Jobs</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {jobs.linkedin.map((job, i) => (
                         <JobCard key={i} job={job} source="LinkedIn" />
                     ))}
-                  </TabsContent>
-
-                  <TabsContent value="naukri" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {jobs.naukri.map((job, i) => (
-                        <JobCard key={i} job={job} source="Naukri" />
-                    ))}
-                  </TabsContent>
-                </Tabs>
+                  </div>
+              </motion.div>
               </motion.div>
             )}
           </motion.section>

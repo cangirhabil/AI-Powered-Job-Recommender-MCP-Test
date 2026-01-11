@@ -60,18 +60,4 @@ def fetch_linkedin_jobs(search_query, location="india", rows=10):
     jobs = list(apify_client.dataset(run["defaultDatasetId"]).iterate_items())
     return jobs
 
-def fetch_naukri_jobs(search_query, location="india", rows=10):
-    """Fetches jobs from Naukri via Apify."""
-    if not apify_client:
-        return []
 
-    run_input = {
-        "keyword": search_query,
-        "maxJobs": rows,
-        "freshness": "all",
-        "sortBy": "relevance",
-        "experience": "all",
-    }
-    run = apify_client.actor("alpcnRV9YI9lYVPWk").call(run_input=run_input)
-    jobs = list(apify_client.dataset(run["defaultDatasetId"]).iterate_items())
-    return jobs

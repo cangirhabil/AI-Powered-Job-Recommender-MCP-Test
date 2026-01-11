@@ -4,8 +4,7 @@ from typing import List, Optional
 from .services import (
     extract_text_from_pdf, 
     ask_gemini, 
-    fetch_linkedin_jobs, 
-    fetch_naukri_jobs
+    fetch_linkedin_jobs
 )
 import pydantic
 
@@ -65,11 +64,9 @@ async def get_jobs(keywords: str, location: str = "india"):
     try:
         # Fetching fewer jobs for speed in demo/dev
         linkedin_jobs = fetch_linkedin_jobs(keywords, location=location, rows=10)
-        naukri_jobs = fetch_naukri_jobs(keywords, location=location, rows=10)
         
         return {
-            "linkedin": linkedin_jobs,
-            "naukri": naukri_jobs
+            "linkedin": linkedin_jobs
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

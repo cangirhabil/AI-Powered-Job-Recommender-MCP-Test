@@ -17,7 +17,6 @@ export interface Job {
 
 export interface JobsResponse {
   linkedin: Job[];
-  naukri: Job[];
 }
 
 export const analyzeResume = async (file: File): Promise<AnalysisResponse> => {
