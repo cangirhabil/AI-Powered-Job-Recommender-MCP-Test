@@ -1,14 +1,17 @@
 import fitz  # PyMuPDF
 import os
 from dotenv import load_dotenv
-from openai import OpenAI
+import google.generativeai as genai
 from apify_client import ApifyClient
 
 load_dotenv()
 
-# Initialize OpenAI Client
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-openai_client = OpenAI(api_key=OPENAI_API_KEY) if OPENAI_API_KEY else None
+# Initialize Gemini Client
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+if GEMINI_API_KEY:
+    genai.configure(api_key=GEMINI_API_KEY)
+# We don't need a persistent client object like OpenAI, but we can define the model
+model = genai.GenerativeModel('gemini-3-flash-preview') if GEMINI_API_KEY else None
 
 # Initialize Apify Client
 APIFY_API_TOKEN = os.getenv("APIFY_API_TOKEN")
@@ -22,18 +25,22 @@ def extract_text_from_pdf(pdf_content):
         text += page.get_text()
     return text
 
-def ask_openai(prompt, max_tokens=500):
-    """Sends a prompt to OpenAI and returns the response."""
-    if not openai_client:
-        return "OpenAI API Key is missing."
+def ask_gemini(prompt, max_tokens=500):
+    """Sends a prompt to Gemini and returns the response."""
+    if not model:
+        return "Gemini API Key is missing."
     
-    response = openai_client.chat.completions.create(
-        model="gpt-4o",
-        messages=[{"role": "user", "content": prompt}],
-        temperature=0.5,
-        max_tokens=max_tokens
-    )
-    return response.choices[0].message.content
+    try:
+        response = model.generate_content(
+            prompt,
+            generation_config=genai.types.GenerationConfig(
+                max_output_tokens=max_tokens,
+                temperature=0.5,
+            )
+        )
+        return response.text
+    except Exception as e:
+        return f"Error calling Gemini: {str(e)}"
 
 def fetch_linkedin_jobs(search_query, location="india", rows=10):
     """Fetches jobs from LinkedIn via Apify."""
