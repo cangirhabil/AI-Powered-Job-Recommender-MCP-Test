@@ -80,7 +80,10 @@ def fetch_linkedin_jobs(search_query, location="Türkiye", rows=10):
         return []
     
     try:
-        print(f"Fetching jobs for query: '{search_query}', location: '{location}', rows: {rows}")
+        print(f"\n=== LinkedIn Job Search ===")
+        print(f"Search Query: '{search_query}'")
+        print(f"Location: '{location}'")
+        print(f"Requested rows: {rows}")
         
         run_input = {
             "title": search_query,
@@ -92,13 +95,28 @@ def fetch_linkedin_jobs(search_query, location="Türkiye", rows=10):
             }
         }
         
+        print(f"Calling Apify actor with input: {run_input}")
         run = apify_client.actor("BHzefUZlZRKWxkTck").call(run_input=run_input)
         jobs = list(apify_client.dataset(run["defaultDatasetId"]).iterate_items())
         
-        print(f"Found {len(jobs)} jobs")
+        # Ensure we return maximum 10 jobs
+        jobs = jobs[:10]
+        
+        print(f"✓ Successfully fetched {len(jobs)} jobs")
+        if len(jobs) == 0:
+            print("WARNING: No jobs found! This might be because:")
+            print("  - The search query is too specific or contains technical jargon")
+            print("  - The location is too restrictive")
+            print("  - LinkedIn has no matching results")
+            print(f"  - Try simplifying the search query: '{search_query}'")
+        else:
+            print(f"Sample job titles: {[job.get('title', 'N/A')[:50] for job in jobs[:3]]}")
+        
         return jobs
     except Exception as e:
-        print(f"Error fetching LinkedIn jobs: {str(e)}")
+        print(f"✗ Error fetching LinkedIn jobs: {str(e)}")
+        import traceback
+        traceback.print_exc()
         return []
 
 

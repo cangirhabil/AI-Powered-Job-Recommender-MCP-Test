@@ -102,15 +102,17 @@ Resume:
         # Step 4: Keywords - JSON format for easier parsing
         yield f"data: {json.dumps({'step': 'keywords', 'status': 'processing'})}\n\n"
         keywords_raw = ask_gemini(
-            f"""Based on this resume, suggest the best job titles and keywords for searching jobs.
+            f"""Based on this resume, suggest the best job search keywords.
 
-Return ONLY a valid JSON array of strings, no explanation, no markdown, just the JSON array.
-Example format: ["Software Engineer", "Full Stack Developer", "Python Developer"]
+CRITICAL: Return ONLY a valid JSON array of strings. No explanation, no markdown, just the JSON array.
+Example format: ["Software Engineer", "Full Stack Developer", "Python Developer", "Machine Learning", "React"]
 
-Include:
-- Relevant job titles (5-8)
-- Key technologies mentioned in resume
-- Industry-specific terms
+IMPORTANT: 
+- The FIRST 3-5 items MUST be actual job titles (e.g., "Software Engineer", "Backend Developer")
+- Job titles should be searchable on LinkedIn
+- After job titles, you can include key technologies
+- Avoid overly specific technical jargon that wouldn't be used in job titles
+- Maximum 10-12 keywords total
 
 Resume Summary:
 {summary}""",

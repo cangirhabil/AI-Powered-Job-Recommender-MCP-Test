@@ -79,9 +79,15 @@ export function useResumeAnalysis() {
 
     setFetchingJobs(true);
     try {
-      const keywords = analysis.keywords.join(", ");
-      console.log("Fetching jobs with keywords:", keywords);
-      console.log("Keywords array:", analysis.keywords);
+      // Take only the first 3 keywords, which are typically job titles
+      // Avoid technical terms like "LangChain", "RAG", etc. which don't work well in job searches
+      const jobTitles = analysis.keywords.slice(0, 3);
+      const keywords = jobTitles.join(", ");
+      
+      console.log("Original keywords:", analysis.keywords);
+      console.log("Job titles for search:", jobTitles);
+      console.log("Search query:", keywords);
+      
       const jobResults = await fetchJobs(keywords);
       console.log("Job results:", jobResults);
       setJobs(jobResults);
