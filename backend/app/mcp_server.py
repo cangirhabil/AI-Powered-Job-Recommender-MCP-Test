@@ -1,14 +1,25 @@
 from mcp.server.fastmcp import FastMCP
 from typing import List
-from .services import (
-    extract_text_from_pdf, 
-    ask_gemini, 
-    fetch_linkedin_jobs, 
-    analyze_summary,
-    analyze_gaps,
-    analyze_roadmap,
-    analyze_keywords
-)
+try:
+    from .services import (
+        extract_text_from_pdf, 
+        ask_gemini, 
+        fetch_linkedin_jobs, 
+        analyze_summary,
+        analyze_gaps,
+        analyze_roadmap,
+        analyze_keywords
+    )
+except ImportError:
+    from services import (
+        extract_text_from_pdf, 
+        ask_gemini, 
+        fetch_linkedin_jobs, 
+        analyze_summary,
+        analyze_gaps,
+        analyze_roadmap,
+        analyze_keywords
+    )
 import json
 
 # Initialize FastMCP server

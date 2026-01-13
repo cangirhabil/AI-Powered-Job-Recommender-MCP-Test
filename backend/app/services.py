@@ -4,7 +4,9 @@ from dotenv import load_dotenv
 import google.generativeai as genai
 from apify_client import ApifyClient
 
-load_dotenv()
+from pathlib import Path
+env_path = Path(__file__).parent / '.env'
+load_dotenv(dotenv_path=env_path)
 
 # Initialize Gemini Client
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")

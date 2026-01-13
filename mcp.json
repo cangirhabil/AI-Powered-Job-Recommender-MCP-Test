@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "Job Recommender": {
+      "command": "/Users/hc/Desktop/AI-Powered-Job-Recommender-MCP-Test/backend/venv/bin/fastmcp",
+      "args": [
+        "run",
+        "--transport",
+        "stdio",
+        "/Users/hc/Desktop/AI-Powered-Job-Recommender-MCP-Test/backend/app/mcp_server.py"
+      ]
+    }
+  }
+}
