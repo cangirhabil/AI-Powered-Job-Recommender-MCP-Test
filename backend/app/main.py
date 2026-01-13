@@ -91,8 +91,27 @@ async def analyze_resume_stream(file: UploadFile = File(...)):
 @app.get("/fetch-jobs")
 async def get_jobs(keywords: str, location: str = "Türkiye"):
     try:
-        # Fetching fewer jobs for speed in demo/dev
-        linkedin_jobs = fetch_linkedin_jobs(keywords, location=location, rows=10)
+        # Split keywords by comma
+        keyword_list = [k.strip() for k in keywords.split(',') if k.strip()]
+        
+        linkedin_jobs = []
+        
+        if len(keyword_list) >= 2:
+            # Take first 2 skills/keywords
+            target_skills = keyword_list[:2]
+            print(f"Executing split search for skills: {target_skills}")
+            
+            for skill in target_skills:
+                # Fetch 5 jobs for each skill
+                print(f"Fetching jobs for skill: {skill}")
+                jobs = fetch_linkedin_jobs(skill, location=location, rows=5)
+                linkedin_jobs.extend(jobs)
+                
+        else:
+            # Fallback to normal search if less than 2 keywords
+            search_query = keyword_list[0] if keyword_list else keywords
+            print(f"Executing single search for: {search_query}")
+            linkedin_jobs = fetch_linkedin_jobs(search_query, location=location, rows=10)
         
         return {
             "linkedin": linkedin_jobs
